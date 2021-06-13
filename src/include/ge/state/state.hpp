@@ -7,7 +7,7 @@ namespace ge {
     class State {
     public:
         State(Data *data): data(data){}
-        virtual ~State(){}
+        virtual ~State(){};
 
         virtual void update(){};
         virtual void render(){};

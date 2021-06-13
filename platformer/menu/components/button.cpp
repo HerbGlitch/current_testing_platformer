@@ -56,7 +56,7 @@ namespace herbglitch {
 
         void Button::executeClick(){
             if(state != ButtonState::CLICK){ return; }
-            if(txtIndex == 0){ data->state.addState(new Game(data), true); }
+            if(txtIndex == 0){ data->state.addState(new Game(data)); }
             if(txtIndex == 1){  }
             if(txtIndex == 2){ data->window.close(); }
         }

@@ -1,5 +1,7 @@
 all: compile link
 
+test: compile link run
+
 compile: main_code menu game
 
 main_code:
@@ -15,4 +17,7 @@ game:
 	cd src/compiled && g++ -isystem../../src/include -c ../../platformer/game/player/player.cpp -o player.o -Wall -Werror
 
 link:
-	g++ src/compiled/*.o -o main -Lsrc/lib -lsfml-graphics -lsfml-window -lsfml-system
+	cd src/bin/ && g++ ../compiled/*.o -o main -L../lib -lsfml-graphics -lsfml-window -lsfml-system
+
+run:
+	./src/bin/main.exe

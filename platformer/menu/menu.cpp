@@ -1,5 +1,4 @@
 #include "menu.hpp"
-#include <iostream>
 
 namespace herbglitch {
     Menu::Menu(ge::Data *data): ge::State(data){

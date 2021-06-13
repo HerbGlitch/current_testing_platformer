@@ -17,6 +17,8 @@ namespace ge {
         state::Handler state;
         resource::Texture texture;
         resource::Resource<sf::Font> font;
+
+        float dt;
         float scale = 8.0f;
     };
 
@@ -45,25 +47,26 @@ namespace ge {
         
     }
 
-    inline void Run(Data *data, unsigned int width, unsigned int height, const char *title, float UPS = 1.0f / 60.0f){
+    inline void Run(Data *data, unsigned int width, unsigned int height, const char *title){
         sf::Clock clock;
 
         data->window.create(sf::VideoMode(sf::VideoMode::getDesktopMode()), title, sf::Style::Default);
-
-        float dt = clock.getElapsedTime().asSeconds();
-        float new_dt = 0.0f, elapsed = 0.0f;
+        data->window.setVerticalSyncEnabled(true);
 
         while(data->window.isOpen()){
-            new_dt = clock.getElapsedTime().asSeconds();
-            elapsed += new_dt - dt;
-            dt = new_dt;
-
-            if(elapsed >= UPS){
-                data->state.update();
-                elapsed -= UPS;
+            clock.restart();
+            
+            sf::Event event;
+            while(data->window.pollEvent(event)){
+            // "close requested" event: we close the window
+                if(event.type == sf::Event::Closed){
+                    data->window.close();
+                }
             }
+            data->dt = clock.getElapsedTime().asSeconds();
 
-            //render
+            data->state.update();
+
             data->window.clear();
             data->state.render();
             data->window.display();

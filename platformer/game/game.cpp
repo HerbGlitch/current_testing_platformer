@@ -2,6 +2,7 @@
 
 namespace herbglitch {
     Game::Game(ge::Data *data): ge::State(data){
+        printf("HERE?");
         player = new Player(data);
     }
 

@@ -2,13 +2,14 @@
 #define HG_NODE_HPP
 
 namespace hg {
-    template <class Object>
+    template <class N_Type>
     struct node {
-        Object current;
-        node *next = nullptr;
+        N_Type data;
+        node<N_Type> *next;
 
-        node(){}
-        node(Object current): current(current){}
+        node(): next(nullptr){}
+        node(N_Type data): data(data), next(nullptr){}
+        ~node(){ if(next != nullptr){ delete next; } }
     };
 }
 

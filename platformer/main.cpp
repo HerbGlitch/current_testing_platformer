@@ -9,5 +9,6 @@ int main(){
     data->state.addState(new herbglitch::Menu(data));
 
     ge::Run(data, 1920, 1080, "Platformer");
+
     return 0;
 }
