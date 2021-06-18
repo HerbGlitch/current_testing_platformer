@@ -37,6 +37,7 @@ namespace ge {
                                 std::cout << "Error: filepath '" << filepath << "' failed to load" << std::endl;
                                 std::exit(-1);
                             }
+                            continue;
                         }
                         if(second == "["){ multi = true; rectName = first; continue; }
 

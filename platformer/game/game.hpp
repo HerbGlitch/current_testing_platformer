@@ -1,6 +1,7 @@
 #pragma once
 #include <ge/ge.hpp>
 #include <stdio.h>
+#include "map/map.hpp"
 #include "player/player.hpp"
 
 namespace herbglitch {
@@ -13,6 +14,7 @@ namespace herbglitch {
         void render();
 
     private:
-        Player *player;
+        game::Map *map;
+        game::Player *player;
     };
 }

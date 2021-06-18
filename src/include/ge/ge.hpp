@@ -17,6 +17,7 @@ namespace ge {
         state::Handler state;
         resource::Texture texture;
         resource::Resource<sf::Font> font;
+        resource::Resource<level::Data> level;
 
         float dt;
         float scale = 8.0f;
@@ -37,14 +38,32 @@ namespace ge {
 
                 if(first == "texture"){ data->texture.read(root + second); continue; }
                 if(first == "font"){    data->font.read(   root + second); continue; }
+                if(first == "level"){   data->level.read(  root + second); continue; }
             }
 
             fb.close();
         }
     }
 
-    inline void Input(Data *data){
-        
+    inline void Unload(Data *data, std::string filepath){
+        std::filebuf fb;
+        if(fb.open(filepath, std::ios::in)){
+            std::istream is(&fb);
+            while(is){
+                std::string temp;
+                std::getline(is, temp);
+                if(temp.find(':') == std::string::npos){ continue; }
+
+                std::string first = temp.substr(0, temp.find(':'));
+                std::string second = temp.substr(temp.find(':') + 2, temp.size() - 1);
+                std::string root = filepath.substr(0, filepath.find_last_of("/") + 1);
+
+                if(first == "texture"){ data->texture.unload(root + second); continue; }
+                if(first == "font"){    data->font.unload(   root + second); continue; }
+            }
+
+            fb.close();
+        }
     }
 
     inline void Run(Data *data, unsigned int width, unsigned int height, const char *title){
@@ -59,7 +78,7 @@ namespace ge {
             sf::Event event;
             while(data->window.pollEvent(event)){
             // "close requested" event: we close the window
-                if(event.type == sf::Event::Closed){
+                if(event.type == sf::Event::Closed || (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Key::Escape)){
                     data->window.close();
                 }
             }
@@ -71,6 +90,8 @@ namespace ge {
             data->state.render();
             data->window.display();
         }
+
+        data->state.clearStates();
     }
 }
 

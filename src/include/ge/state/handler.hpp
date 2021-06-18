@@ -2,8 +2,8 @@
 #define HANDLER_HPP
 
 #include "state.hpp"
-#include <hg/base/vector.hpp>
 #include <vector>
+#include <iostream>
 
 namespace ge {
     namespace state {
@@ -12,8 +12,14 @@ namespace ge {
             Handler(){}
             ~Handler(){ clearStates(); }
 
-            void update(){ for(State * &state : states){ state->update(); } }
-            void render(){ for(State * &state : states){ state->render(); } }
+            void update(){
+                if(!deleteQueue.empty()){
+                    for(State *state : deleteQueue){ delete state; }
+                    deleteQueue.clear();
+                }
+                for(State *state : states){ state->update(); }
+            }
+            void render(){ for(State *state : states){ state->render(); } }
 
             void addState(State *state, bool removing = true){
                 if(removing){ removeState(); }
@@ -22,15 +28,18 @@ namespace ge {
 
             void removeState(){
                 if(states.empty()){ return; }
-                State *temp = states.at(states.size() - 1);
-                states.erase(states.size() - 1);
-                delete temp;
+                deleteQueue.push_back(states.at(states.size() - 1));
+                states.erase(states.begin() + states.size() - 1);
             }
 
-            void clearStates(){ states.clear(); }
+            void clearStates(){
+                for(State *state : states){ delete state; }
+                states.clear();
+            }
 
         private:
-            hg::vector<State *> states;
+            std::vector<State *> states;
+            std::vector<State *> deleteQueue;
         };
     }
 }

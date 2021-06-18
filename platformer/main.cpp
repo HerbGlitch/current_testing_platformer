@@ -9,6 +9,9 @@ int main(){
     data->state.addState(new herbglitch::Menu(data));
 
     ge::Run(data, 1920, 1080, "Platformer");
+    ge::Unload(data, "src/res/settings.config");
+
+    delete data;
 
     return 0;
 }

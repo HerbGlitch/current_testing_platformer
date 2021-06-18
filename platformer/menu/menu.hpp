@@ -1,5 +1,6 @@
 #pragma once
 #include <ge/ge.hpp>
+#include <iostream>
 #include "components/uibox.hpp"
 
 namespace herbglitch {

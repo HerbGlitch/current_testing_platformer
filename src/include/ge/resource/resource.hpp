@@ -10,9 +10,8 @@ namespace ge {
         template <class ResourceObj>
         class ResourceObjArr {
         public:
-            // ResourceObjArr(): objs(nullptr), size(0){}
             ResourceObjArr(ResourceObj *objs, unsigned int size = 1): objs(objs), size(size){}
-            ~ResourceObjArr(){ size = 0; delete [] objs; }
+            ~ResourceObjArr(){ delete [] objs; }
             
             ResourceObj &operator[](int index){ return objs[index]; }
             unsigned int getSize(){ return size; }
@@ -49,7 +48,7 @@ namespace ge {
             }
 
             virtual void load(std::string filepath, std::string name){
-                ResourceObj *obj = new ResourceObj();
+                ResourceObj *obj = new ResourceObj[1];
 
                 if(!obj->loadFromFile(filepath)){
                     delete obj;
@@ -57,6 +56,24 @@ namespace ge {
                     std::exit(-1);
                 }
                 objs[name] = new ResourceObjArr<ResourceObj>(obj);
+            }
+
+            virtual void unload(std::string filepath){
+                std::filebuf fb;
+                if (fb.open(filepath, std::ios::in)) {
+                    std::istream is(&fb);
+                    while(is){
+                        std::string temp;
+                        std::getline(is, temp);
+                        if(temp.find(':') == std::string::npos){ continue; }
+
+                        temp = temp.substr(0, temp.find(':'));
+                        delete objs[temp];
+                        objs.erase(temp);
+                    }
+
+                    fb.close();
+                }
             }
 
             ResourceObjArr<ResourceObj> &getResource(std::string name){ return *objs[name]; }

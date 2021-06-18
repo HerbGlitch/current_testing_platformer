@@ -15,9 +15,10 @@ menu:
 game:
 	cd src/compiled && g++ -isystem../../src/include -c ../../platformer/game/game.cpp -o game.o -Wall -Werror
 	cd src/compiled && g++ -isystem../../src/include -c ../../platformer/game/player/player.cpp -o player.o -Wall -Werror
+	cd src/compiled && g++ -isystem../../src/include -c ../../platformer/game/map/map.cpp -o map.o -Wall -Werror
 
 link:
-	cd src/bin/ && g++ ../compiled/*.o -o main -L../lib -lsfml-graphics -lsfml-window -lsfml-system
+	g++ src/compiled/*.o -o main -lsfml-graphics -lsfml-window -lsfml-system
 
 run:
-	./src/bin/main.exe
+	./src/bin/main

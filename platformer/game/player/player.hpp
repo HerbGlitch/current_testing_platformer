@@ -1,15 +1,18 @@
 #pragma once
 #include <ge/ge.hpp>
+#include <iostream>
 
 namespace herbglitch {
-    class Player : public ge::platformer::Entity {
-    public:
-        Player(ge::Data *data);
-        ~Player();
+    namespace game {
+        class Player : public ge::platformer::Entity {
+        public:
+            Player(ge::Data *data);
+            ~Player();
 
-        void update();
-        void render();
+            void update();
+            void render();
 
-    private:
-    };
+        private:
+        };
+    }
 }

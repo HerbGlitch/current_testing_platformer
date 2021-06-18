@@ -6,7 +6,7 @@
 
 namespace hg {
     namespace io {
-        inline char *File(char *&path, unsigned int *&size){
+        inline char *File(char *path, unsigned int *&size){
             #ifdef HG_DEBUG
                 printf("%s\n", path);
             #endif
